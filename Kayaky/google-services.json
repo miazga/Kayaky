@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "674006921127",
+    "firebase_url": "https://kayaky-1527865238593.firebaseio.com",
+    "project_id": "kayaky-1527865238593",
+    "storage_bucket": "kayaky-1527865238593.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:674006921127:android:b87fb6099caaa60b",
+        "android_client_info": {
+          "package_name": "com.mattkobosko.kayaky"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "674006921127-7j6m1vjsldgaaga8spsi6k6grec8ifna.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.mattkobosko.kayaky",
+            "certificate_hash": "8c16700744f4555e2f5c684309dd11c7a4d69da5"
+          }
+        },
+        {
+          "client_id": "674006921127-i6hordnjkcapuanjsctrtli18ek2uv90.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "674006921127-i6hordnjkcapuanjsctrtli18ek2uv90.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCisLxtRHL9DbTAYhmAFpRgW0Wdn1UsWr8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "674006921127-i6hordnjkcapuanjsctrtli18ek2uv90.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
