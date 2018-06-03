@@ -1,9 +1,8 @@
 import React from "react";
-import { Dimensions, TouchableOpacity, StyleSheet, Text, View } from "react-native";
+import { Dimensions, TouchableOpacity, StyleSheet, View } from "react-native";
 import {Constants, MapView, Permissions } from "expo";
 import LocalizationService from "../services/Localization.service";
 import FirebaseService from "../services/Firebase.service";
-import * as firebase from 'firebase';
 
 class MapComponent extends React.Component {
 
@@ -27,7 +26,7 @@ class MapComponent extends React.Component {
   }
 
   fetchMarkers() {
-    firebase.database().ref('coordinates').once('value').then(itemFiltered => {
+    FirebaseService.coordinatesDb().once('value').then(itemFiltered => {
       let data = [];
       itemFiltered.forEach(x => {
         let item = {
@@ -41,7 +40,8 @@ class MapComponent extends React.Component {
     });
   }
 
-  refresh = () => {
+  refresh = async () => {
+    await Permissions.askAsync(Permissions.LOCATION);
     this.getLocation();
     this.fetchMarkers();
   }

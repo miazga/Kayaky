@@ -10,6 +10,9 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 
 const FirebaseService = {
+  coordinatesDb: function() {
+    return firebase.database().ref('coordinates');
+  },
   storeCurrentCoordinates: function(userId, { longitude, latitude }) {
     firebase.database().ref('coordinates/' + userId).set({
       longitude: longitude,
