@@ -3,28 +3,47 @@ import { Dimensions, TouchableOpacity, StyleSheet, Text, View } from "react-nati
 import {Constants, MapView, Permissions } from "expo";
 import LocalizationService from "../services/Localization.service";
 import FirebaseService from "../services/Firebase.service";
+import * as firebase from 'firebase';
 
 class MapComponent extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {isLoading: false, markers: [{longitude: 19.94, latitude: 50.06}], currentLocation: null};
-  }
-  componentDidMount() {
-    this.fetchMarkerData();
-  }
-  fetchMarkerData() {
-    let array = FirebaseService.getAllCoordinates();
-    console.log(array);
-    this.setState({isLoading:false, markers: [], currentLocation: null});
+    this.state = {isLoading: true, markers: [], currentLocation: null};
   }
 
-  async refresh() {
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    //this.fetchMarkerData();
-    console.log(FirebaseService.getAllCoordinates());
-    let location = await LocalizationService.getLocationAsync();
-    FirebaseService.storeCurrentCoordinates(Constants.deviceId, {longitude: location.coords.longitude, latitude:location.coords.latitude});
+  componentDidMount() {
+    this.fetchMarkers();
+    this.getLocation();
+  }
+
+  getLocation() {
+    LocalizationService.getLocationAsync().then(location => {
+      this.setState({currentLocation: location});
+    }).then(() => {
+      FirebaseService.storeCurrentCoordinates(Constants.deviceId,
+        {longitude: this.state.currentLocation.coords.longitude, latitude: this.state.currentLocation.coords.latitude});
+    });
+  }
+
+  fetchMarkers() {
+    firebase.database().ref('coordinates').once('value').then(itemFiltered => {
+      let data = [];
+      itemFiltered.forEach(x => {
+        let item = {
+          key: x.key, 
+          longitude: x.val().longitude, 
+          latitude: x.val().latitude
+        }
+        data.push(item);
+        this.setState({isLoading: false, markers: data});
+      });
+    });
+  }
+
+  refresh = () => {
+    this.getLocation();
+    this.fetchMarkers();
   }
 
   render() {
@@ -47,13 +66,18 @@ class MapComponent extends React.Component {
                     longitude: marker.longitude
                   };
 
-                  const metadata = `Status: ${"marker.index"}`;
+                  const metadata = `Distance: ${LocalizationService.countDistance(
+                    this.state.currentLocation.coords.latitude,
+                    this.state.currentLocation.coords.longitude,
+                    coords.latitude,
+                    coords.longitude
+                  )}`;
 
                   return (
                     <MapView.Marker
-                      key={"index"}
+                      key={marker.key}
                       coordinate={coords}
-                      title={"marker.index"}
+                      title={marker.key}
                       description={metadata}
                     />
                   );
