@@ -12,6 +12,7 @@ class MapComponent extends React.Component {
   }
 
   componentDidMount() {
+    FirebaseService.init();
     this.fetchMarkers();
     this.getLocation();
   }

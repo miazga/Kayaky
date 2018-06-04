@@ -7,9 +7,10 @@ const firebaseConfig = {
   storageBucket: "kayaky-1527865238593.appspot.com"
 };
 
-firebase.initializeApp(firebaseConfig);
-
 const FirebaseService = {
+  init: function() {
+    firebase.initializeApp(firebaseConfig);
+  },
   coordinatesDb: function() {
     return firebase.database().ref('coordinates');
   },
